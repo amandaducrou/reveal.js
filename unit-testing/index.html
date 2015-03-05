@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Unit Testing</title>
+
+        <meta name="description" content="Presentation on Unit Testing">
+        <meta name="author" content="Amanda Ducrou">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../css/reveal.css">
+        <link rel="stylesheet" href="../css/theme/serif.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../css/print/pdf.css' : '../css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Unit Testing</h1>
+                    <p><small>AWOL Team Workshop</small></p>
+                </section>
+
+                <section>
+                   <h2>Four Reasons to Change Software</h2>
+                    <ol>
+                        <li>Adding a feature</li>
+                        <li>Fixing a bug</li>
+                        <li>Improving the design</li>
+                        <li>Optimising resource usage</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Changes can be made in two ways</h2>
+                    <ol>
+                        <li>Edit and Pray
+                            <ul>
+                              <li>"Working with care"</li>
+                                <li>However, safety is not solely a function of care</li>
+                            </ul>
+                        </li>
+                        <li>Cover and Modify
+                            <ul>
+                                <li>Safety Net</li>
+                                <li>Cover with tests</li>
+                                <li>Quickly find out if changes were good or bad</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Qualities of good unit tests</h3>
+                    <ol>
+                        <li>They run fast</li>
+                        <li>They help us localise problems</li>
+                    </ol>
+                    <p>A unit test that takes 1/10th of a second to run is a slow test.</p>
+                </section>
+
+                <section>
+                    <h3>A test is not a unit test if:</h3>
+                    <ul>
+                        <li>It talks to the database</li>
+                        <li>It communicates across the network</li>
+                        <li>It touches the file system</li>
+                        <li>It can't run at the same time as any of your other unit tests</li>
+                        <li>You have to do special things to your environment (such as editing config files) to run it.</li>
+                    </ul>
+                    <p><small>Michael Feathers, "Working Effectively With Legacy Code"</small></p>
+                </section>
+
+                <section>
+                    <h3>A unit test should have the following properties:</h3>
+                    <ul>
+                        <li>It should be automated and repeatable.</li>
+                        <li>It should be easy to implement.</li>
+                        <li>Once it’s written, it should remain for future use.</li>
+                        <li>Anyone should be able to run it.</li>
+                        <li>It should run at the push of a button.</li>
+                        <li>It should run quickly.</li>
+                    </ul>
+                    <p><small>From "The Art of Unit Testing" by Roy Osherove</small></p>
+                    <p><small>http://artofunittesting.com/</small></p>
+                </section>
+
+                <section>
+                    <h3>Structure of a Unit Test</h3>
+                    <p>Most unit tests have 3 steps</p>
+                    <ul>
+                        <li>AAA - arrange, act assert</li>
+                        <li>Setup, exercise, verify</li>
+                        <li>Given, When, Then</li>
+                    </ul>
+                    <p><b>The most important step is assert/verify/then!</b></p>
+                    <p>If you leave this step out, it isn't really testing anything</p>
+                    <p><small>optional fourth step is cleanup</small></p>
+                </section>
+
+                <section>
+                    <h3>Unit Testing Harnesses</h3>
+                    <p>Tools or frameworks for running tests</p>
+                    <p>JUnit, TestNG, Spock (uses JUnit Runner), RSpec, Cucumber etc</p>
+                    <ul>
+                        <li>All tests run in isolation</li>
+                        <li>Tests can be grouped in suites so that they can be run and rerun on demand.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                       <h1>JUnit Example</h1>
+                        <h3>The Class</h3>
+                        <pre><code>class MyUnit {
+
+    String concatenate(String one, String two){
+        "${one} ${two}"
+    }
+}</code></pre>
+                    </section>
+                    <section>
+                        <h3>The Unit Test</h3>
+                        <p>The class only has one method, concatenate(), so all we need to test is this method.</p>
+                        <pre><code>import org.junit.Test
+import static org.junit.Assert.*
+
+class MyUnitTest {
+
+    @Test
+    def testConcatenate() {
+
+        // Setup
+        MyUnit myUnit = new MyUnit()
+
+        // Exercise
+        String result = myUnit.concatenate("one", "two")
+
+        // Verify
+        assertEquals("onetwo", result)
+    }
+}</code></pre>
+                    </section>
+                    <section>
+                        <ul>
+                        <li>The unit test class is an ordinary class, with one method, testConcatenate().</li>
+                        <li>This method is annotated with the JUnit annotation @Test
+                            - this signals to the unit test runner, that this method represents a unit test and should be run.</li>
+                        <li>Methods that are not annotated with @Test are not executed.</li>
+                        <li>In Spock, methods which start with the word "test" are executed by the test runner.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Arrange</h3>
+                        <p>
+                            Inside the testConcatenate() method an instance of MyUnit is created.
+                            This is the setup we need to do in order to run and test the concatenate method.
+                        </p>
+                        <h3>Act</h3>
+                            Then the concatenate() method is called with two string values. This is the method that we are actually testing.
+                        </p>
+                    </section>
+                    <section>
+                        <h3>Assert</h3>
+                        <p>Finally, the assertEquals() method is called. <b>It is this method that does the actual testing.</b></p>
+                        <p>
+                            assertEquals compares the output of the method we are testing (concatenate()) with the expected output.</p>
+                        <p>
+                            In other words, we compare "onetwo" (<b>expected result</b>) with the <b>actual result</b> returned by the concatenate() method.
+                        </p>
+                    </section>
+                    <section>
+                        <p>If the expected result and the actual result are equal, nothing happens and the test passes.</p>
+                        </p>If the two values are not equal, an exception is thrown, and the test method stops executing here, thus failing the test.</p>
+                        <p>In Spock, we can leave out the assert method and simply add a boolean expression. The Spock runner will assert that the expression is true for us.</p>
+                        <p>e.g. result == "onetwo"</p>
+                        <p><small>http://tutorials.jenkov.com/java-unit-testing/simple-test.html</small></p>
+                    </section>
+                </section>
+
+                <section>
+                    <h3>Benefits of Unit Testing</h3>
+                    <ul>
+                        <li>Unit Testing reduces the level of bugs in production code.</li>
+                        <li>Unit Testing saves you development time.</li>
+                        <li>Automated tests can be run as frequently as required.</li>
+                        <li>Unit Testing makes it easier to change and refactor code.</li>
+                        <li>Unit Testing can improve the design of code especially with Test-Driven Development.</li>
+                        <li>Unit Tests are a form of documentation.</li>
+                        <li>Unit Testing forces you to confront the problem head on.</li>
+                        <li>Unit Tests are a measure of completion.</li>
+                        <li>Unit Testing inspires confidence!</li>
+                    </ul>
+                    <p><small>http://blog.typemock.com/2012/10/10-benefits-of-unit-testing.html</small></p>
+                </section>
+            </div>
+        </div>
+
+        <script src="../lib/js/head.min.js"></script>
+        <script src="../js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../plugin/zoom-js/zoom.js', async: true },
+                    { src: '../plugin/notes/notes.js', async: true }
+                ]
+            });
+
+        </script>
+    </body>
+</html>
