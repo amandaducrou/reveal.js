@@ -109,13 +109,13 @@
                     <h3>Structure of a Unit Test</h3>
                     <p>Most unit tests have 3 steps</p>
                     <ul>
-                        <li>AAA - arrange, act assert</li>
+                        <li>AAA - arrange, act, assert</li>
                         <li>Setup, exercise, verify</li>
                         <li>Given, When, Then</li>
                     </ul>
                     <p><b>The most important step is assert! (verify/then)</b></p>
                     <p>If you leave this step out, it isn't really testing anything</p>
-                    <p><small>(optional fourth step is cleanup)</small></p>
+                    <p>It is best practice to only have one assert per test.</p>
                 </section>
 
                 <section>
@@ -124,7 +124,7 @@
                     <p>JUnit, TestNG, Spock (uses JUnit Runner), RSpec, Cucumber etc</p>
                     <ul>
                         <li>All tests run in isolation</li>
-                        <li>Tests can be grouped in suites so that they can be run and rerun on demand.</li>
+                        <li>Tests can be grouped in suites so that they can be run and rerun on demand</li>
                     </ul>
                 </section>
 
@@ -157,7 +157,7 @@ class MyUnitTest {
         String result = myUnit.concatenate("one", "two")
 
         // Verify
-        assertEquals("onetwo", result)
+        assertEquals("one two", result)
     }
 }</code></pre>
                     </section>
@@ -166,7 +166,6 @@ class MyUnitTest {
                         <li>The unit test class is an ordinary class, with one method, testConcatenate().</li>
                         <li>This method is annotated with the JUnit annotation @Test
                             - this signals to the unit test runner, that this method represents a unit test and should be run.</li>
-                        <li>Methods that are not annotated with @Test are not executed.</li>
                         <li>In Spock, methods which start with the word "test" are executed by the test runner.</li>
                         </ul>
                     </section>
@@ -186,14 +185,14 @@ class MyUnitTest {
                         <p>
                             assertEquals compares the output of the method we are testing (concatenate()) with the expected output.</p>
                         <p>
-                            In other words, we compare "onetwo" (<b>expected result</b>) with the <b>actual result</b> returned by the concatenate() method.
+                            In other words, we compare "one two" (<b>expected result</b>) with the <b>actual result</b> returned by the concatenate() method.
                         </p>
                     </section>
                     <section>
                         <p>If the expected result and the actual result are equal, nothing happens and the test passes.</p>
                         </p>If the two values are not equal, an exception is thrown, and the test method stops executing here, thus failing the test.</p>
                         <p>In Spock, we can leave out the assert keyword and simply add a boolean expression. The Spock runner will assert that the expression is true for us.</p>
-                        <p>e.g. result == "onetwo"</p>
+                        <p>e.g. result == "one two"</p>
                         <p><small>http://tutorials.jenkov.com/java-unit-testing/simple-test.html</small></p>
                     </section>
                 </section>
@@ -205,13 +204,21 @@ class MyUnitTest {
                         <li>Unit Testing saves you development time.</li>
                         <li>Automated tests can be run as frequently as required.</li>
                         <li>Unit Testing makes it easier to change and refactor code.</li>
-                        <li>Unit Testing can improve the design of code especially with Test-Driven Development.</li>
+                        <li>Unit Testing can improve the design of code (TDD).</li>
                         <li>Unit Tests are a form of documentation.</li>
                         <li>Unit Testing forces you to confront the problem head on.</li>
                         <li>Unit Tests are a measure of completion.</li>
                         <li>Unit Testing inspires confidence!</li>
                     </ul>
                     <p><small>http://blog.typemock.com/2012/10/10-benefits-of-unit-testing.html</small></p>
+                </section>
+
+                <section>
+                    <h3>Workshop Links</h3>
+                    <ul>
+                        <li>git@wothub.core.wotifgroup.com:mlopes/zoo.git</li>
+                        <li>git@wothub.core.wotifgroup.com:mlopes/zoojava.git</li>
+                    </ul>
                 </section>
             </div>
         </div>
